@@ -1,25 +1,23 @@
 # GitHub Action for Azure Resource Manager
 
 
-With ARM GitHub Action, you can automate your workflow by executing [Azure CLI](https://github.com/Azure/azure-cli) commands to deploy ARM templates and manage Azure resources.
+With ARM GitHub Action, you can automate your workflow to deploy ARM templates and manage Azure resources.
 
-The action executes the Azure CLI Bash script on a user defined Azure CLI version. If the user does not specify a version, latest CLI version is used.
-Read more about various Azure CLI versions [here](https://github.com/Azure/azure-cli/releases).
 
-- `azcliversion` – **Optional** Example: 2.0.72, Default: latest
-- `location` – **Required** 
 - `resource-group` – **Required** 
 - `template-file` or `template-uri` – **Required** Either the local template location or the template URI must be provided
 - `parameters` – **Optional**
+- `deploymentName` – **Optional** Specifies the name of the resource group deployment to create.
+- `deploymentMode` – **Optional**  Incremental (only add resources to resource group) or Complete (remove extra resources from resource group) or Validate.  Default: Incremental.
 
-The definition of this GitHub Action is in [action.yml](https://github.com/Azure/CLI/blob/master/action.yml).  The action status is determined by the exit code returned by the script rather than StandardError stream. 
 
 ## Sample workflow 
 
 ### Dependencies on other GitHub Actions
 * [Azure Login](https://github.com/Azure/login) – **Required** Login with your Azure credentials 
 * [Checkout](https://github.com/actions/checkout) – **Required** To execute the scripts present in your repository
-### Workflow to execute an AZ CLI script for template deployment using template location
+
+### Workflow for template deployment using template file
 ```
 # File: .github/workflows/workflow.yml
 
@@ -44,71 +42,9 @@ jobs:
     - name: Azure ARM Deployment
       uses: azure/ARM@v1
       with:
-        azcliversion: 2.0.72
-        inlineScript: |
-          az group create --location $REPLACE_THIS_WITH_LOCATION --name $REPLACE_THIS_WITH_RESOURCE_GROUP
-          az group deployment create --resource-group $REPLACE_THIS_WITH_RESOURCE_GROUP --template-file $REPLACE_THIS_WITH_TEMPLATE_FILE
-```
-### Workflow to execute an AZ CLI script for template deployment using template URI
-```
-# File: .github/workflows/workflow.yml
-
-on: [push]
-
-name: AzureARMSample
-
-jobs:
-
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-    
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-    - name: Checkout
-      uses: actions/checkout@v1
-      
-    - name: Azure ARM Deployment
-      uses: azure/ARM@v1
-      with:
-        azcliversion: 2.0.72
-        inlineScript: |
-          az group create --location $REPLACE_THIS_WITH_LOCATION --name $REPLACE_THIS_WITH_RESOURCE_GROUP
-          az group deployment create --resource-group $REPLACE_THIS_WITH_RESOURCE_GROUP --template-uri REPLACE_THIS_WITH_TEMPLATE_URI
-```
-
-### Workflow to execute an AZ CLI script for template deployment with parameter files
-```
-# File: .github/workflows/workflow.yml
-
-on: [push]
-
-name: AzureARMSample
-
-jobs:
-
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-    
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-    - name: Checkout
-      uses: actions/checkout@v1
-      
-    - name: Azure ARM Deployment
-      uses: azure/ARM@v1
-      with:
-        azcliversion: 2.0.72
-        inlineScript: |
-          az group create --location $REPLACE_THIS_WITH_LOCATION --name $REPLACE_THIS_WITH_RESOURCE_GROUP
-          az group deployment create --resource-group $REPLACE_THIS_WITH_RESOURCE_GROUP --template-file REPLACE_THIS_WITH_TEMPLATE_FILE --parameters REPLACE_THIS_WITH_PARAMETER_JSON_FILE
+       resourceGroupName: github-action-arm-rg
+       template-file: ./azuredeploy.json
+       parameters: storageAccountType=Standard_LRS
 ```
 
   * [GITHUB_WORKSPACE](https://help.github.com/en/github/automating-your-workflow-with-github-actions/virtual-environments-for-github-hosted-runners) is the environment variable provided by GitHub which represents the root of your repository.
