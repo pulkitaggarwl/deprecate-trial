@@ -4,7 +4,7 @@
 With ARM GitHub Action, you can automate your workflow to deploy ARM templates and manage Azure resources.
 
 
-- `resource-group` – **Required** 
+- `resourcegroup` – **Required** 
 - `templateLocation` – **Required** Either the local template location or the template URI must be provided
 - `parameters` – **Optional**
 - `deploymentName` – **Optional** Specifies the name of the resource group deployment to create.
