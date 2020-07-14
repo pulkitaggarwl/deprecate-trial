@@ -5,7 +5,7 @@ With ARM GitHub Action, you can automate your workflow to deploy ARM templates a
 
 
 - `resource-group` – **Required** 
-- `template-file` or `template-uri` – **Required** Either the local template location or the template URI must be provided
+- `templateLocation` – **Required** Either the local template location or the template URI must be provided
 - `parameters` – **Optional**
 - `deploymentName` – **Optional** Specifies the name of the resource group deployment to create.
 - `deploymentMode` – **Optional**  Incremental (only add resources to resource group) or Complete (remove extra resources from resource group) or Validate.  Default: Incremental.
@@ -48,6 +48,9 @@ jobs:
 ```
 
   * [GITHUB_WORKSPACE](https://help.github.com/en/github/automating-your-workflow-with-github-actions/virtual-environments-for-github-hosted-runners) is the environment variable provided by GitHub which represents the root of your repository.
+  
+### Outputs
+Every template output will be exported as output.   
 
 ### Configure Azure credentials as GitHub Secret:
 
