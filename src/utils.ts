@@ -12,7 +12,7 @@ export const createScriptFile = async (inlineScript: string): Promise<string> =>
     const filePath: string = path.join(TEMP_DIRECTORY, fileName);
     fs.writeFileSync(filePath, `${inlineScript}`);
     await giveExecutablePermissionsToFile(filePath);
-    return fileName;
+    return fileName; 
 }
 
 
