@@ -1,0 +1,17 @@
+# File: .github/workflows/workflow.yml
+
+on: [push]
+
+name: AzureARMSample
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+  
+    
+    - name: Checkout
+      uses: pulkitaggarwl/mycheckout@v1
+      
+ 
