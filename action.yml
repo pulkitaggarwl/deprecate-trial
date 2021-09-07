@@ -1,5 +1,5 @@
 # ARM Deployment Action
-name: 'Sample'
+name: 'Sample-arm'
 description: 'Automate your GitHub workflows using Azure CLI scripts to deploy ARM Templates.'
 inputs:
   inlineScript:
